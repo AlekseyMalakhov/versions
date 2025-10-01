@@ -107,8 +107,16 @@ function processProject(projectPath, dependencies, devDependencies) {
  */
 function generateResult(dependencies, devDependencies, vegaPath) {
   // Convert Map to object with dependency_name: version format
-  const dependenciesObj = Object.fromEntries(dependencies);
-  const devDependenciesObj = Object.fromEntries(devDependencies);
+  // Add ^ prefix to all versions
+  const dependenciesObj = {};
+  for (const [name, version] of dependencies) {
+    dependenciesObj[name] = `^${version}`;
+  }
+
+  const devDependenciesObj = {};
+  for (const [name, version] of devDependencies) {
+    devDependenciesObj[name] = `^${version}`;
+  }
 
   return {
     scanDate: new Date().toISOString(),
